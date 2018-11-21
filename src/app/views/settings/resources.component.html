@@ -1,0 +1,158 @@
+<div class="animated fadeIn">
+  <h4>Resources</h4><br>
+  <div class="card">
+    <div class="card-body">
+      <!--<div class="row">
+        <div class="col-sm-5">
+          <h4 class="card-title mb-0">Resources</h4>
+        </div>
+      </div>
+      <div class="row">&nbsp;</div>
+      <hr class="mt-0">-->
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="progress-group" *ngFor="let r of teamCount">
+            <div class="progress-group-header" (click)="filterByTeam(r.team)" style="cursor: pointer">
+              <div>{{r.team}}</div>
+              <div class="ml-auto font-weight-bold" [innerHTML]="r.countResources"></div>
+            </div>
+            <div class="progress-group-bars">
+              <div class="progress progress-xs">
+                <div 
+                  class="progress-bar bg-info"
+                  role="progressbar"
+                  [ngStyle]="setProgressWidth(r.countResources, activeCount)"
+                  [attr.aria-valuenow]="getPercent(r.countResources, activeCount)"
+                  aria-valuemin="0"
+                  aria-valuemax="1"
+                  [attr.title]="r.countResources"></div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="progress-group mb-4">&nbsp;</div>-->
+          <div class="progress-group" *ngFor="let r of locationCount" style="cursor: pointer">
+            <div class="progress-group-header" (click)="filterByLocation(r.location)">
+              <div *ngIf="r.location=='us'">US</div>
+              <div *ngIf="r.location=='in'">India</div>
+              <div *ngIf="r.location=='ph'">Phillipines</div>
+              <div class="ml-auto font-weight-bold" [innerHTML]="getPercent(r.countResources, activeCount) | percent : '2.0-0'"></div>
+            </div>
+            <div class="progress-group-bars">
+              <div class="progress progress-xs">
+                <div 
+                  class="progress-bar bg-warning"
+                  role="progressbar"
+                  [ngStyle]="setProgressWidth(r.countResources, activeCount)"
+                  [attr.aria-valuenow]="getPercent(r.countResources, activeCount)"
+                  aria-valuemin="0"
+                  aria-valuemax="1"
+                  [attr.title]="r.countResources"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="progress-group" *ngFor="let r of techStackCount" style="cursor: pointer">
+            <div class="progress-group-header" (click)="filterByTechStack(r.techStack)">
+              <div>{{r.techStack}}</div>
+              <div class="ml-auto font-weight-bold" [innerHTML]="r.countResources"></div>
+            </div>
+            <div class="progress-group-bars">
+              <div class="progress progress-xs">
+                <div 
+                  class="progress-bar bg-danger"
+                  role="progressbar"
+                  [ngStyle]="setProgressWidth(r.countResources, activeCount)"
+                  [attr.aria-valuenow]="getPercent(r.countResources, activeCount)"
+                  aria-valuemin="0"
+                  aria-valuemax="1"
+                  [attr.title]="r.countResources"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-7 offset-sm-5 d-none d-md-block">
+          <button type="button" class="btn btn-primary float-right" [routerLink]="['/settings/newresource']"><i class="icon-user-follow" title="New Resource"></i></button>
+          <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+            <label class="btn btn-outline-secondary" (click)="filterAll()" [class.active]="filterId === 'all'">All</label>
+            <label class="btn btn-outline-secondary" (click)="filterActive()" [class.active]="filterId === 'active'">Active</label>
+            <label class="btn btn-outline-secondary" (click)="filterInactive()" [class.active]="filterId === 'inactive'">Inactive</label>
+            <!--<label class="btn btn-outline-secondary" (click)="filterLatest()" [class.active]="filterId === 'latest'">Latest</label>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">&nbsp;</div>
+      <table class="table table-responsive-sm table-hover table-outline mb-0">
+        <thead class="thead-light">
+          <tr>
+            <th>Actions</th>
+            <th>Resource</th>
+            <th>Location</th>
+            <th>Team</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable" *ngFor="let r of resources | paginate: config" routerLink="/settings/resource-edit/{{r.id}}">
+            <td>
+              <button type="button" class="btn btn-primary" [routerLink]="['/settings/resource-clone/'+r.id]"><i class="fa fa-clone" title="Clone Resource"></i></button>
+              &nbsp;
+              <button type="button" class="btn btn-primary" [routerLink]="['/settings/resource-clone/'+r.id]"><i class="fa fa-arrow-right" title="View Actuals"></i></button>
+            </td>
+            <td>
+              <div>{{r.resourceName}}</div>
+              <div class="small text-muted">
+                {{r.resourceType}} | Start Date: {{r.startDateActive | date:locale}}
+              </div>
+            </td>
+            <td>
+              <div>
+                <i class="flag-icon flag-icon-us h4 mb-0" title="us" id="us" *ngIf="r.location=='us'"></i>
+                <i class="flag-icon flag-icon-in h4 mb-0" title="in" id="in" *ngIf="r.location=='in'"></i>
+                <i class="flag-icon flag-icon-ph h4 mb-0" title="ph" id="ph" *ngIf="r.location=='ph'"></i>
+              </div>
+            </td>
+            <td><div>{{r.team}}</div></td>
+            <td><div>{{r.role}}</div></td>
+            <td>
+              <div>
+                <span class="badge badge-success" *ngIf="r.activeFlag">Active</span>
+                <span class="badge badge-secondary" *ngIf="!r.activeFlag">Inactive</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row">&nbsp;</div>
+      <pagination-template
+        #p="paginationApi"
+        [id]="config.id"
+        (pageChange)="config.currentPage = $event" class="pagination">
+
+        <div class="page-item" [class.disabled]="p.isFirstPage()">
+            <a class="page-link" (click)="p.previous()">Prev</a>
+        </div>
+
+        <div class="page-item" *ngFor="let page of p.pages" [class.active]="p.getCurrent() === page.value">
+            <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                <span class="page-link">{{ page.label }}</span>
+            </a>
+            <a *ngIf="p.getCurrent() === page.value">
+                <span class="page-link">{{ page.label }}</span>
+            </a>
+        </div>
+
+        <div class="page-item" [class.disabled]="p.isLastPage()">
+            <a class="page-link" (click)="p.next()">Next</a>
+        </div>
+      </pagination-template>
+    </div>
+  </div>
+</div>

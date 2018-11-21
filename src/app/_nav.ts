@@ -2,7 +2,66 @@ export const navItems = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    icon: 'icon-speedometer',
+    icon: 'icon-speedometer'
+  },
+  {
+    title: true,
+    name: 'Reports & KPIs'
+  },
+  {
+    name: 'Capacity Planning',
+    url: '/team/capacity',
+    icon: 'fa fa-area-chart'
+  },
+  {
+    name: 'Actuals',
+    url: '/team/actuals',
+    icon: 'fa fa-bar-chart'
+  },
+  {
+    name: 'Forecast',
+    url: '/team/forecast',
+    icon: 'fa fa-line-chart'
+  },
+  {
+    title: true,
+    name: 'Estimates'
+  },
+  {
+    name: 'New Estimate',
+    url: '/estimates/new',
+    icon: 'icon-pencil'
+  },
+  {
+    name: 'Estimate Groups',
+    url: '/estimates/groups',
+    icon: 'fa fa-folder-o'
+  },
+  {
+    name: 'Estimates',
+    url: '/estimates/list',
+    icon: 'fa fa-credit-card'
+  },
+  {
+    title: true,
+    name: 'Settings'
+  },
+  {
+    name: 'Resources',
+    url: '/settings/resources',
+    icon: 'icon-user'
+  },
+  {
+    name: 'Roles',
+    url: '/settings/roles',
+    icon: 'icon-people'
+  }
+  
+  /* ,
+  {
+    name: 'Dashboard',
+    url: '/dashboard',
+    icon: 'icon-speedometer'
     badge: {
       variant: 'info',
       text: 'NEW'
@@ -228,4 +287,5 @@ export const navItems = [
     icon: 'icon-layers',
     variant: 'danger'
   }
+  */
 ];

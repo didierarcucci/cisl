@@ -67,6 +67,10 @@ export const routes: Routes = [
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'settings',
+        loadChildren: './views/settings/settings.module#SettingsModule'
+      },
+      {
         path: 'icons',
         loadChildren: './views/icons/icons.module#IconsModule'
       },

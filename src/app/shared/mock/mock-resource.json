@@ -1,0 +1,20 @@
+{
+    "EmpId": 163,
+    "EmpName": "ARCUCCI Didier",
+    "Dept": "Integration Solutions",
+    "Team": "Integration Solutions",
+    "Organization": "Essilor",
+    "EmpType": "(01) Employee",
+    "RecordType": "Person",
+    "Role": "Delivery Manager",
+    "TechStack": "Management",
+    "CBRate": 75,
+    "ActRate": 75,
+    "StartDateActive": "2018-01-01",
+    "EndDateActive": "",
+    "Location": "Onsite",
+    "CapRatio": "",
+    "Budgeted": "Y",
+    "LoadHoursFlag": "",
+    "Active": "Y"
+}

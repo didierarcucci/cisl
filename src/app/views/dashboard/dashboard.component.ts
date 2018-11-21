@@ -3,20 +3,123 @@ import { Router } from '@angular/router';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
+import { DashboardService } from '../../shared/services/dashboard.service';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
+  public dashboardKpis: any = [];
+  public currentKpiValues: any = {};
+
+  private monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  public doneLoading$ = Observable.of(false);
+
+  constructor(public _dashSvc: DashboardService) {}
+
+  getDashboardKpis() {
+    this._dashSvc.getDashboardKpis().subscribe((data: {}) => {
+      this.dashboardKpis = data;
+
+      // keep current values separate and remove from array
+      this.setCurrentKpiValues(this.dashboardKpis);
+      this.dashboardKpis.splice(-1);
+
+      this.lineChart1Data = this.setLineChartData(this.dashboardKpis.map(a => a.projectHours), 'Project Hours');
+      this.lineChart1Labels = this.setLineChartLabels(this.dashboardKpis);
+      this.lineChart1Options = this.setLineChartOptions(this.dashboardKpis.map(a => a.projectHours), 100);
+
+      this.lineChart2Data = this.setLineChartData(this.dashboardKpis.map(a => a.activeProjects), 'Active Projects');
+      this.lineChart2Labels = this.lineChart1Labels;
+      this.lineChart2Options = this.setLineChartOptions(this.dashboardKpis.map(a => a.activeProjects), 1);
+
+      this.lineChart3Data = this.setLineChartData(this.dashboardKpis.map(a => a.activeResources), 'Active Resources');
+      this.lineChart3Labels = this.lineChart1Labels;
+      this.lineChart3Options = this.setLineChartOptions(this.dashboardKpis.map(a => a.activeResources), 1);
+
+      this.lineChart4Data = this.setLineChartData(this.dashboardKpis.map(a => a.avgBillRate), 'Average Bill Rate');
+      this.lineChart4Labels = this.lineChart1Labels;
+      this.lineChart4Options = this.setLineChartOptions(this.dashboardKpis.map(a => a.avgBillRate), 1);
+
+      this.doneLoading$ = Observable.of(true);
+    });
+  }
+
+  setCurrentKpiValues(_dashboardKpis) {
+    this.currentKpiValues = _dashboardKpis[_dashboardKpis.length-1];
+  }
+
+  setLineChartData(_array:any, _label:string) {
+    return [{
+      data: _array,
+      label: _label
+    }];
+  }
+
+  setLineChartLabels(_dashboardKpis:any) {
+    return this.dashboardKpis.map(a => {
+      var dt = new Date(a.entryMonth);
+      var dtm = this.monthNames[dt.getMonth()];
+      return dtm;
+    }); 
+  }
+
+  setLineChartOptions(_array: any, _axisLimit:any) {
+    var lineChartYAxisMin = Math.min.apply(null, _array) - _axisLimit;
+    var lineChartYAxisMax = Math.max.apply(null, _array) + _axisLimit * 2;
+
+    console.log(lineChartYAxisMin);
+
+    return {
+      tooltips: {
+        enabled: false,
+        custom: CustomTooltips
+      },
+      maintainAspectRatio: false,
+      scales: {
+        xAxes: [{
+          gridLines: {
+            color: 'transparent',
+            zeroLineColor: 'transparent'
+          },
+          ticks: {
+            fontSize: 2,
+            fontColor: 'transparent',
+          }
+
+        }],
+        yAxes: [{
+          display: false,
+          ticks: {
+            display: false,
+            min: lineChartYAxisMin,
+            max: lineChartYAxisMax,
+          }
+        }],
+      },
+      elements: {
+        line: {
+          borderWidth: 1
+        },
+        point: {
+          radius: 4,
+          hitRadius: 10,
+          hoverRadius: 4,
+        },
+      },
+      legend: {
+        display: false
+      }
+    };
+  }
+
   // lineChart1
-  public lineChart1Data: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart1Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart1Options: any = {
+  /* = {
     tooltips: {
       enabled: false,
       custom: CustomTooltips
@@ -38,8 +141,8 @@ export class DashboardComponent implements OnInit {
         display: false,
         ticks: {
           display: false,
-          min: 40 - 5,
-          max: 84 + 5,
+          min: 2293.3 - 100,
+          max: 3045.5 + 100,
         }
       }],
     },
@@ -56,7 +159,10 @@ export class DashboardComponent implements OnInit {
     legend: {
       display: false
     }
-  };
+  };*/
+  public lineChart1Data: Array<any> = [ {data: [], label: ''} ];
+  public lineChart1Labels: Array<any> = [];
+  public lineChart1Options: any;
   public lineChart1Colours: Array<any> = [
     {
       backgroundColor: getStyle('--primary'),
@@ -67,55 +173,9 @@ export class DashboardComponent implements OnInit {
   public lineChart1Type = 'line';
 
   // lineChart2
-  public lineChart2Data: Array<any> = [
-    {
-      data: [1, 18, 9, 17, 34, 22, 11],
-      label: 'Series A'
-    }
-  ];
-  public lineChart2Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart2Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
-
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 1 - 5,
-          max: 34 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        tension: 0.00001,
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
+  public lineChart2Data: Array<any> = [ {data: [], label: ''} ];
+  public lineChart2Labels: Array<any> = [];
+  public lineChart2Options: any;
   public lineChart2Colours: Array<any> = [
     { // grey
       backgroundColor: getStyle('--info'),
@@ -127,7 +187,7 @@ export class DashboardComponent implements OnInit {
 
 
   // lineChart3
-  public lineChart3Data: Array<any> = [
+  /*public lineChart3Data: Array<any> = [
     {
       data: [78, 81, 80, 45, 34, 12, 40],
       label: 'Series A'
@@ -161,18 +221,34 @@ export class DashboardComponent implements OnInit {
     legend: {
       display: false
     }
-  };
+  };*/
+  public lineChart3Data: Array<any> = [ {data: [], label: ''} ];
+  public lineChart3Labels: Array<any> = [];
+  public lineChart3Options: any;
   public lineChart3Colours: Array<any> = [
     {
-      backgroundColor: 'rgba(255,255,255,.2)',
+      backgroundColor: getStyle('--warning'),
       borderColor: 'rgba(255,255,255,.55)',
     }
   ];
   public lineChart3Legend = false;
   public lineChart3Type = 'line';
 
+  // lineChart4
+  public lineChart4Data: Array<any> = [ {data: [], label: ''} ];
+  public lineChart4Labels: Array<any> = [];
+  public lineChart4Options: any;
+  public lineChart4Colours: Array<any> = [
+    {
+      backgroundColor: getStyle('--danger'),
+      borderColor: 'rgba(255,255,255,.55)',
+    }
+  ];
+  public lineChart4Legend = false;
+  public lineChart4Type = 'line';
 
   // barChart1
+  /*
   public barChart1Data: Array<any> = [
     {
       data: [78, 81, 80, 45, 34, 12, 40, 78, 81, 80, 45, 34, 12, 40, 12, 40],
@@ -207,6 +283,7 @@ export class DashboardComponent implements OnInit {
   ];
   public barChart1Legend = false;
   public barChart1Type = 'bar';
+  */
 
   // mainChart
 
@@ -377,6 +454,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getDashboardKpis();
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(50, 200));
