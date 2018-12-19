@@ -2,13 +2,6 @@
   <h4>Resources</h4><br>
   <div class="card">
     <div class="card-body">
-      <!--<div class="row">
-        <div class="col-sm-5">
-          <h4 class="card-title mb-0">Resources</h4>
-        </div>
-      </div>
-      <div class="row">&nbsp;</div>
-      <hr class="mt-0">-->
       <div class="row">
         <div class="col-sm-6">
           <div class="progress-group" *ngFor="let r of teamCount">
@@ -78,7 +71,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-sm-7 offset-sm-5 d-none d-md-block">
-          <button type="button" class="btn btn-primary float-right" [routerLink]="['/settings/newresource']"><i class="icon-user-follow" title="New Resource"></i></button>
+          <button type="button" class="btn btn-primary float-right" [routerLink]="['/settings/newresource']"><i class="fa fa-plus" title="New Resource"></i></button>
           <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
             <label class="btn btn-outline-secondary" (click)="filterAll()" [class.active]="filterId === 'all'">All</label>
             <label class="btn btn-outline-secondary" (click)="filterActive()" [class.active]="filterId === 'active'">Active</label>
@@ -104,7 +97,7 @@
             <td>
               <button type="button" class="btn btn-primary" [routerLink]="['/settings/resource-clone/'+r.id]"><i class="fa fa-clone" title="Clone Resource"></i></button>
               &nbsp;
-              <button type="button" class="btn btn-primary" [routerLink]="['/settings/resource-clone/'+r.id]"><i class="fa fa-arrow-right" title="View Actuals"></i></button>
+              <button type="button" class="btn btn-primary" [routerLink]="['/dashboard']"><i class="fa fa-list" title="View Actuals"></i></button>
             </td>
             <td>
               <div>{{r.resourceName}}</div>

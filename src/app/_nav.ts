@@ -39,7 +39,7 @@ export const navItems = [
   },
   {
     name: 'Estimates',
-    url: '/estimates/list',
+    url: '/estimates',
     icon: 'fa fa-credit-card'
   },
   {

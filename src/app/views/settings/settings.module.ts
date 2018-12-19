@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule }   from '@angular/forms';
 
 import { SettingsRoutingModule } from './settings-routing.module';
-import { ResourcesComponent } from './resources.component';
-import { ResourceFormComponent } from './resource-form.component';
+import { ResourcesComponent } from './resources/resources.component';
+import { ResourceFormComponent } from './resource-form/resource-form.component';
 
 import {NgxPaginationModule} from 'ngx-pagination';
+import { RolesComponent } from './roles/roles.component';
+import { RoleFormComponent } from './role-form/role-form.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
   ],
   declarations: [
     ResourcesComponent,
-    ResourceFormComponent
+    ResourceFormComponent,
+    RolesComponent,
+    RoleFormComponent
   ]
 })
 export class SettingsModule { }

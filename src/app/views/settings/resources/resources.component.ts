@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ResourceService } from '../../shared/services/resource.service';
-import {PaginationInstance} from 'ngx-pagination';
+import { ResourceService } from '../../../shared/services/resource.service';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-resources',

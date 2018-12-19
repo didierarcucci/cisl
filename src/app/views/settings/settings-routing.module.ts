@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
 
-import { ResourcesComponent } from './resources.component';
-import { ResourceFormComponent } from './resource-form.component';
+import { ResourcesComponent } from './resources/resources.component';
+import { ResourceFormComponent } from './resource-form/resource-form.component';
+
+import { RolesComponent } from './roles/roles.component';
+import { RoleFormComponent } from './role-form/role-form.component';
 
 const routes: Routes = [
   {
@@ -44,13 +47,43 @@ const routes: Routes = [
         data: {
           title: 'Clone Resource'
         }
+      },
+      {
+        path: 'roles',
+        component: RolesComponent,
+        data: {
+          title: 'Roles'
+        }
+      },
+      {
+        path: 'newrole',
+        component: RoleFormComponent,
+        data: {
+          title: 'New Role'
+        }
+      },
+      {
+        path: 'role-edit/:id',
+        component: RoleFormComponent,
+        data: {
+          title: 'Edit Role'
+        }
+      },
+      {
+        path: 'role-clone/:id',
+        component: RoleFormComponent,
+        data: {
+          title: 'Clone Role'
+        }
       }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes)
+  ],
   exports: [RouterModule]
 })
 export class SettingsRoutingModule {}

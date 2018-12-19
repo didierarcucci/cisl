@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Resource } from '../../shared/classes/resource';
-import { ResourceService } from '../../shared/services/resource.service';
+import { Resource } from '../../../shared/classes/resource';
+import { ResourceService } from '../../../shared/services/resource.service';
 
 @Component({
   selector: 'app-resource',
@@ -48,7 +48,6 @@ export class ResourceFormComponent implements OnInit {
     console.log(JSON.stringify(this.resource));
     if (this.actionType == 'edit') this.updateResource()
     else this.addResource();
-    this.router.navigate(['settings/resources']);
   }
 
   getResourceDetails() {
@@ -66,6 +65,7 @@ export class ResourceFormComponent implements OnInit {
   addResource() {
     this._resSvc.addResource(this.resource).subscribe((result) => {
       console.log("resource added");
+      this.router.navigate(['settings/resources']);
     }, (err) => {
       console.log(err);
     });
@@ -74,6 +74,7 @@ export class ResourceFormComponent implements OnInit {
   updateResource() {
     this._resSvc.updateResource(this.resource).subscribe((result) => {
       console.log("resource updated");
+      this.router.navigate(['settings/resources']);
     }, (err) => {
       console.log(err);
     });

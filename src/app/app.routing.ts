@@ -71,6 +71,10 @@ export const routes: Routes = [
         loadChildren: './views/settings/settings.module#SettingsModule'
       },
       {
+        path: 'estimates',
+        loadChildren: './views/estimates/estimates.module#EstimatesModule'
+      },
+      {
         path: 'icons',
         loadChildren: './views/icons/icons.module#IconsModule'
       },
@@ -91,7 +95,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [ RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}
