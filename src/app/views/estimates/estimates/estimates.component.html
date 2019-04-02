@@ -13,14 +13,14 @@
           <tr>
             <th class="text-center">Actions</th>
             <th>Estimate Name</th>
-            <th>Version</th>
+            <!--<th>Version</th>-->
             <th class="text-right">Cost</th>
             <th class="text-right">Add-On Cost</th>
             <th class="text-right">Total Cost</th>
             <th class="text-right">Effort (hrs)</th>
             <th class="text-right">Component Count</th>
             <th class="text-center">Status</th>
-            <th>Created Date</th>
+            <!--<th>Created Date</th>-->
           </tr>
         </thead>
         <tbody>
@@ -30,9 +30,12 @@
             </td>
             <td>
               <div>{{e.name}}</div>
+              <div class="small text-muted">
+                v{{e.version}} | Created on: {{e.createdAt | date:locale}}
+              </div>
             </td>
-            <td><div>{{e.version}}</div></td>
-            <!--<td class="text-right"><div>{{e.cost | currency}}</div></td>
+            <!--<td><div>{{e.version}}</div></td>
+            <td class="text-right"><div>{{e.cost | currency}}</div></td>
             <td class="text-right"><div>{{e.addOnCost | currency}}</div></td>
             <td class="text-right"><div>{{e.totalCost | currency}}</div></td>
             <td class="text-right"><div>{{e.effort}}</div></td>
@@ -48,7 +51,7 @@
                 <span class="badge badge-secondary" *ngIf="!e.active">Inactive</span>
               </div>
             </td>
-            <td><div>{{e.createdAt | date:locale}}</div></td>
+            <!--<td><div>{{e.createdAt | date:locale}}</div></td>-->
           </tr>
         </tbody>
       </table>

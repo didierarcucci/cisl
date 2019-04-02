@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Resource } from '../../../shared/classes/resource';
 import { ResourceService } from '../../../shared/services/resource.service';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { AlertService } from '../../../shared/services/alert.service';
+
 
 @Component({
   selector: 'app-resource',
@@ -24,7 +27,15 @@ export class ResourceFormComponent implements OnInit {
 
   actionType:any;
 
-  constructor(private _resSvc: ResourceService, private route: ActivatedRoute, private router: Router) {
+  public bsDatePickerConfig: Partial<BsDatepickerConfig> = {
+    dateInputFormat: 'YYYY-MM-DD',
+    containerClass: 'theme-dark-blue'
+  };
+
+  constructor( private _resSvc: ResourceService,
+               private route: ActivatedRoute,
+               private router: Router,
+               private _alertSvc: AlertService) {
     this.resourceId = this.route.snapshot.params['id'];
 
          if (this.router.url.includes('clone')) this.actionType = 'clone';
@@ -64,18 +75,22 @@ export class ResourceFormComponent implements OnInit {
 
   addResource() {
     this._resSvc.addResource(this.resource).subscribe((result) => {
+      this._alertSvc.add('success', 'Resource has been added successfully!');
       console.log("resource added");
       this.router.navigate(['settings/resources']);
     }, (err) => {
+      this._alertSvc.add('success', 'An error occurred while adding the resource.');
       console.log(err);
     });
   }
 
   updateResource() {
     this._resSvc.updateResource(this.resource).subscribe((result) => {
+      this._alertSvc.add('success', 'Resource has been updated successfully!');
       console.log("resource updated");
       this.router.navigate(['settings/resources']);
     }, (err) => {
+      this._alertSvc.add('success', 'An error occurred while updating the resource.');
       console.log(err);
     });
   }

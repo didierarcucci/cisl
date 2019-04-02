@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PaginationInstance } from 'ngx-pagination';
 import { Estimate } from '../../../shared/classes/estimate';
 import { EstimateService } from '../../../shared/services/estimate.service';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-estimate-form',
@@ -16,7 +18,13 @@ export class EstimateFormComponent implements OnInit {
   actionType:any;
   submitted = false;
 
-  constructor(private _estSvc: EstimateService, private route: ActivatedRoute, private router: Router) {
+  public config: PaginationInstance = {
+    id: 'components',
+    itemsPerPage: 5,
+    currentPage: 1
+  };
+
+  constructor(private _estSvc: EstimateService, private route: ActivatedRoute, private router: Router, private _alertService:AlertService) {
     this.estimateId = this.route.snapshot.params['id'];
 
          if (this.router.url.includes('clone')) this.actionType = 'clone';
@@ -51,9 +59,10 @@ export class EstimateFormComponent implements OnInit {
   addEstimate() {
     console.log('add estimate');
     this._estSvc.addEstimate(this.estimate).subscribe((result) => {
-      console.log("estimate added");
+      this._alertService.add('success', 'This estimate has been added.');
       this.router.navigate(['estimates']);
     }, (err) => {
+      this._alertService.add('error', 'Seems like an error occurred while adding this estimate.');
       console.log(err);
     });
   }
@@ -61,9 +70,22 @@ export class EstimateFormComponent implements OnInit {
   updateEstimate() {
     console.log('update estimate: '+ JSON.stringify(this.estimate));
     this._estSvc.updateEstimate(this.estimate).subscribe((result) => {
-      console.log("estimate updated");
+      this._alertService.add('success', 'This estimate has been updated.');
       this.router.navigate(['estimates']);
     }, (err) => {
+      this._alertService.add('error', 'Seems like an error occurred while updating this estimate.');
+      console.log(err);
+    });
+  }
+
+  deleteComponent(_componentId) {
+    console.log('delete component: '+ _componentId);
+    this._estSvc.deleteComponent(_componentId).subscribe((result) => {
+      console.log("component deleted");
+      this._alertService.add('success', 'Component deleted successfully!');
+      this.router.navigate(['/estimates/estimate-edit', this.estimateId]);
+    }, (err) => {
+      this._alertService.add('error', 'An error was encountered while deleting the component.');
       console.log(err);
     });
   }

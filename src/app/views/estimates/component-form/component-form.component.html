@@ -1,0 +1,52 @@
+<div class="animated fadeIn">
+  <h4>{{component.name}}</h4><br>
+  <form (ngSubmit)="onSubmit()" #componentForm="ngForm" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 d-none d-md-block">
+                <button type="button" class="btn btn-primary float-right" (click)="deleteComponent()"><i class="fa fa-trash-o" title="Delete Component"></i></button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="name">Component Name</label>
+                  <input type="text" class="form-control" id="name" required #name="ngModel" [(ngModel)]="component.name" name="name" >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="complexity">Complexity</label>
+                  <select class="form-control" id="complexity" name="complexity" [(ngModel)]="component.complexity" required>
+                    <option *ngFor="let c of complexityArray" [ngValue]="c">{{c}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="notes">Notes</label>
+                  <textarea rows="5" #notes="ngModel" id="notes" name="notes" class="form-control" [(ngModel)]="component.notes"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!componentForm.form.valid">Save Changes</button>
+            &nbsp;
+            <button type="button" class="btn btn-secondary" [routerLink]="['/estimates/estimate-edit', component.estimateId]">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <app-component-breakdown [component]="component"></app-component-breakdown>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,12 @@
+<form #breakdownForm="ngForm" method="post" enctype="multipart/form-data" class="form-horizontal">
+  <div class="card">
+    <div class="card-body">
+      <div class="form-group row" *ngFor="let b of componentBreakdown">
+        <label class="col-9 col-form-label" for="hours">{{b.phase.value}}</label>
+        <div class="col-3">
+          <input type="text" class="form-control" id="hours" name="hours" value="{{b.hours}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

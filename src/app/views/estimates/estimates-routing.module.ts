@@ -3,6 +3,7 @@ import { Routes, RouterModule, Router } from '@angular/router';
   
 import { EstimatesComponent } from './estimates/estimates.component';
 import { EstimateFormComponent } from './estimate-form/estimate-form.component';
+import { ComponentFormComponent } from './component-form/component-form.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,27 @@ const routes: Routes = [
         component: EstimateFormComponent,
         data: {
           title: 'Clone Estimate'
+        }
+      },
+      {
+        path: 'component-new/:estimateId',
+        component: ComponentFormComponent,
+        data: {
+          title: 'New Component'
+        }
+      },
+      {
+        path: 'component-edit/:id',
+        component: ComponentFormComponent,
+        data: {
+          title: 'Edit Component'
+        }
+      },
+      {
+        path: 'component-clone/:id',
+        component: ComponentFormComponent,
+        data: {
+          title: 'Clone Component'
         }
       }
     ]

@@ -1,21 +1,19 @@
 <div class="animated fadeIn">
+  <h4>{{role.name}}</h4><br>
   <form (ngSubmit)="onSubmit()" #roleForm="ngForm" method="post" enctype="multipart/form-data" class="form-horizontal">
     <div class="row">
-      <div class="col-md-8 offset-md-2">
+      <div class="col-12">
         <div class="card">
-          <div class="card-header">
-            <strong>Role Form</strong>
-          </div>
           <div class="card-body">
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="roleName">Role</label>
-              <div class="col-md-9">
+              <div class="col-12">
+                <label for="roleName">Role</label>
                 <input type="text" #roleName="ngModel" required id="roleName" name="roleName" class="form-control" [(ngModel)]="role.name">
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="team">Team</label>
-              <div class="col-md-9">
+              <div class="col-12">
+                <label for="team">Team</label>
                 <select class="form-control" id="team" name="team" [(ngModel)]="role.team" required>
                   <option hidden value="" disabled selected>Please select a team</option>
                   <option *ngFor="let team of teams.lookupValues" [ngValue]="team.code">{{team.value}}</option>
@@ -23,8 +21,8 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="billRate">Bill Rate</label>
-              <div class="col-md-2">
+              <div class="col-12">
+                <label for="billRate">Bill Rate</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-dollar"></i></span>
@@ -34,8 +32,21 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="activeFlag">Active</label>
-              <div class="col-md-2 text-right">
+              <div class="col-12">
+              <label for="overhead">Overhead</label>
+                <div class="input-group">
+                  <input type="text" id="overhead" name="overhead" class="form-control" [(ngModel)]="role.overhead">
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12">
+                <label for="activeFlag">Active</label>
+              </div>
+              <div class="col-12">
                 <label class="switch switch-label switch-pill switch-primary">
                   <input type="checkbox" id="activeFlag" name="activeFlag" class="switch-input" checked [(ngModel)]="role.active">
                   <span class="switch-slider" data-checked="Yes" data-unchecked="No"></span>
@@ -43,23 +54,14 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="default">Default</label>
-              <div class="col-md-2 text-right">
+              <div class="col-12">
+                <label for="default">Default</label>
+              </div>
+              <div class="col-12">
                 <label class="switch switch-label switch-pill switch-primary">
                   <input type="checkbox" id="default" name="default" class="switch-input" checked [(ngModel)]="role.default">
                   <span class="switch-slider" data-checked="Yes" data-unchecked="No"></span>
                 </label>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="overhead">Overhead</label>
-              <div class="col-md-2">
-                <div class="input-group">
-                  <input type="text" id="overhead" name="overhead" class="form-control" [(ngModel)]="role.overhead">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

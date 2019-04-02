@@ -39,6 +39,7 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -54,6 +55,7 @@ import { HttpClientModule } from '@angular/common/http';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    AlertModule.forRoot(),
     ChartsModule,
     HttpClientModule
   ],

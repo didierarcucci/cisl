@@ -70,6 +70,22 @@
       </li>
     </ol>
     <div class="container-fluid">
+      <div *ngFor="let alert of _alertSvc.alerts">
+        <alert [type]="alert.type" [dismissOnTimeout]="3000" [dismissible]="true" (onClosed)="_alertSvc.dismiss(alert)">
+          <h4 *ngIf="alert.type == 'success'">Success!</h4>
+          <h4 *ngIf="alert.type == 'error'">Oops!</h4>
+          <p>{{ alert.msg }}</p>
+        </alert>
+      </div>
+      <!--<div *ngFor="let alert of _alertSvc.alerts">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <h4>Success!</h4>
+          <p>{{ alert.msg }}</p>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>-->
       <router-outlet></router-outlet>
     </div><!-- /.container-fluid -->
   </main>

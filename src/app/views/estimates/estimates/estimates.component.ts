@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaginationInstance } from 'ngx-pagination';
 
 import { EstimateService } from '../../../shared/services/estimate.service';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-estimates',
@@ -20,13 +21,14 @@ export class EstimatesComponent implements OnInit {
 
   page: number = 1;
 
-  constructor(private _estimateSvc: EstimateService) { }
+  constructor(private _estimateSvc: EstimateService, private _alertService: AlertService) {}
 
   ngOnInit() {
     this.getEstimates();
   }
 
   getEstimates() {
+    console.log('enter get estimates');
     this.estimates = [];
     this._estimateSvc.getEstimates().subscribe((data: {}) => {
       console.log(data);

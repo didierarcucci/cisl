@@ -57,6 +57,37 @@ export class EstimateService {
     );
   }
 
+  getComponentById(_componentId):Observable<any> {
+    return this.http.get(endpoint + 'component/' + _componentId).pipe(
+      map(this.extractData));
+  }
+
+  addComponent (_component): Observable<any> {
+    console.log(_component);
+    return this.http.post<any>(endpoint + 'component', JSON.stringify(_component), httpOptions).pipe(
+      tap((component) => console.log(`added component w/ id=${component.id}`)),
+      catchError(this.handleError<any>('addComponent'))
+    );
+  }
+
+  updateComponent (_component): Observable<any> {
+    console.log('updating component');
+    console.log(_component);
+    return this.http.patch<any>(endpoint + 'component/' + _component.id, JSON.stringify(_component), httpOptions).pipe(
+      tap((component) => console.log(`updated  component w/ id=${component.id}`)),
+      catchError(this.handleError<any>('updateComponent'))
+    );
+  }
+
+  deleteComponent (_componentId): Observable<any> {
+    console.log('deleting component');
+    console.log(_componentId);
+    return this.http.delete<any>(endpoint + 'component/' + _componentId, httpOptions).pipe(
+      tap(() => console.log('deleted component')),
+      catchError(this.handleError<any>('deleteComponent'))
+    );
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   

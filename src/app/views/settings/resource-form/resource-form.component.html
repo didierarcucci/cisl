@@ -1,77 +1,127 @@
 <div class="animated fadeIn">
+  <h4>{{resource.resourceName}}</h4><br>
   <form (ngSubmit)="onSubmit()" #resourceForm="ngForm" method="post" enctype="multipart/form-data" class="form-horizontal">
     <div class="row">
-      <div class="col-md-8 offset-md-2">
+      <div class="col-md-12">
         <div class="card">
-          <div class="card-header">
-            <strong>Resource Form</strong>
-          </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-12">
                 <div class="form-group">
-                  <!--<label for="resourceName">Resource Name</label>-->
-                  <input type="text" #resourceName="ngModel" required id="resourceName" name="resourceName" class="form-control" placeholder="Resource Name *" [(ngModel)]="resource.resourceName">
+                  <label for="resourceName">Resource Name</label>
+                  <input type="text" #resourceName="ngModel" required id="resourceName" name="resourceName" class="form-control" [(ngModel)]="resource.resourceName">
                 </div>
               </div>
-              <div class="col-md-6">
+            </div>
+            <div class="row">
+              <div class="col-12">
                 <div class="form-group">
-                  <!--<label for="team">Team</label>-->
+                  <label for="team">Team</label>
                   <select class="form-control" id="team" name="team" [(ngModel)]="resource.team" required>
-                    <option hidden value="" disabled selected>Please select a team *</option>
+                    <option hidden value="" disabled selected>Please select a team</option>
                     <option *ngFor="let team of teams.lookupValues" [ngValue]="team.code">{{team.value}}</option>
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-12">
                 <div class="form-group">
+                  <label for="resourceType">Resource Type</label>
                   <select class="form-control" id="resourceType" name="resourceType" required [(ngModel)]="resource.resourceType">
-                    <option hidden value="" disabled selected>Please Select a Resource type *</option>
+                    <option hidden value="" disabled selected>Please Select a Resource type</option>
                     <option *ngFor="let rt of resourceTypes.lookupValues" [ngValue]="rt.code">{{rt.value}}</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-6">
+            </div>
+            <div class="row">
+              <div class="col-12">
                 <div class="form-group">
+                  <label for="role">Role</label>
                   <select class="form-control" id="role" name="role" required [(ngModel)]="resource.role">
-                    <option hidden value="" disabled selected>Please Select a Role *</option>
+                    <option hidden value="" disabled selected>Please Select a Role</option>
                     <option *ngFor="let role of roles.lookupValues" [ngValue]="role.code">{{role.value}}</option>
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-12">
                 <div class="form-group">
+                  <label for="location">Location</label>
                   <select class="form-control" id="location" name ="location" required [(ngModel)]="resource.location">
-                    <option hidden value="" disabled selected>Please Select a location *</option>
+                    <option hidden value="" disabled selected>Please Select a Location</option>
                     <option *ngFor="let location of locations.lookupValues" [ngValue]="location.code">{{location.value}}</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-6">
+            </div>
+            <div class="row">
+              <div class="col-12">
                 <div class="form-group">
+                  <label for="startDateActive">Active Dates</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                      </div>
-                    <input type="text" required id="startDateActive" name="startDateActive" class="form-control" placeholder="Start Date Active *" [(ngModel)]="resource.startDateActive">
-                    <input type="text" id="endDateActive" name="endDateActive" class="form-control" placeholder="End Date Active" [(ngModel)]="resource.endDateActive">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="text" required id="startDateActive" name="startDateActive" class="form-control" [(ngModel)]="resource.startDateActive" bsDatepicker [bsConfig]="bsDatePickerConfig">
+                    <input type="text" id="endDateActive" name="endDateActive" class="form-control" [(ngModel)]="resource.endDateActive" bsDatepicker [bsConfig]="bsDatePickerConfig">
                   </div>
-                  <small><span class="help-block text-muted">ex. mm/dd/yyyy</span></small>
+                  <small><span class="help-block text-muted">ex. yyyy-mm-dd</span></small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="organization">Organization</label>
+                  <input type="text" required id="organization" name="organization" class="form-control" placeholder="Organization *" [(ngModel)]="resource.organization">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="techStack">Technical Stack</label>
+                  <select class="form-control" id="techStack" name ="techStack" required [(ngModel)]="resource.techStack">
+                    <option hidden value="" disabled selected>Please Select a Technical Stack</option>
+                    <option *ngFor="let ts of techStacks.lookupValues" [ngValue]="ts.code">{{ts.value}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="capitalizationRatio">Capitalization %</label>
+                  <div class="input-group">
+                    <input type="text" id="capitalizationRatio" name="capitalizationRatio" class="form-control" [(ngModel)]="resource.capitalizationRatio">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="billRate">Bill Rate</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                    </div>
+                    <input type="text" required id="billRate" name="billRate" class="form-control" [(ngModel)]="resource.billRate">
+                  </div>
                 </div>
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input type="text" required id="organization" name="organization" class="form-control" placeholder="Organization *" [(ngModel)]="resource.organization">
-                </div>
+              <div class="col-12">
+                <label for="budgetedFlag">Budgeted</label>
               </div>
-              <label class="col-md-2 col-form-label" for="budgetedFlag">Budgeted</label>
-              <div class="col-md-1">
+              <div class="col-12">
                 <label class="switch switch-label switch-pill switch-primary">
                   <input type="checkbox" id="budgetedFlag" name="budgetedFlag" class="switch-input" checked [(ngModel)]="resource.budgetedFlag">
                   <span class="switch-slider" data-checked="Yes" data-unchecked="No"></span>
@@ -79,16 +129,10 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control" id="techStack" name ="techStack" required [(ngModel)]="resource.techStack">
-                    <option hidden value="" disabled selected>Please Select a Technical Stack *</option>
-                    <option *ngFor="let ts of techStacks.lookupValues" [ngValue]="ts.code">{{ts.value}}</option>
-                  </select>
-                </div>
+              <div class="col-12">
+                <label for="loadHoursFlag">Load Actuals</label>
               </div>
-              <label class="col-md-2 col-form-label" for="loadHoursFlag">Load Actuals</label>
-              <div class="col-md-1">
+              <div class="col-12">
                 <label class="switch switch-label switch-pill switch-primary">
                   <input type="checkbox" id="loadHoursFlag" name="loadHoursFlag" class="switch-input" checked [(ngModel)]="resource.loadHoursFlag">
                   <span class="switch-slider" data-checked="Yes" data-unchecked="No"></span>
@@ -96,28 +140,10 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <div class="input-group">
-                    <input type="text" id="capitalizationRatio" name="capitalizationRatio" class="form-control" placeholder="Capitalization Ratio" [(ngModel)]="resource.capitalizationRatio">
-                    <div class="input-group-append">
-                      <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                    </div>
-                  </div>
-                </div>
+              <div class="col-12">
+                <label for="activeFlag">Active</label>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-dollar"></i></span>
-                    </div>
-                    <input type="text" required id="billRate" name="billRate" class="form-control" placeholder="Hourly Rate *" [(ngModel)]="resource.billRate">
-                  </div>
-                </div>
-              </div>
-              <label class="col-md-2 col-form-label" for="activeFlag">Active</label>
-              <div class="col-md-4">
+              <div class="col-12">
                 <label class="switch switch-label switch-pill switch-primary">
                   <input type="checkbox" id="activeFlag" name="activeFlag" class="switch-input" checked [(ngModel)]="resource.activeFlag">
                   <span class="switch-slider" data-checked="Yes" data-unchecked="No"></span>
