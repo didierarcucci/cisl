@@ -14,9 +14,7 @@ import { from } from 'rxjs';
 })
 export class ComponentBreakdownComponent implements OnInit {
 
-  @Input() component: EstimateComponent;
-
-  componentBreakdown: ComponentBreakdown[];
+  @Input() breakdown: ComponentBreakdown[];
 
   projectPhases: any[];
 
@@ -28,48 +26,66 @@ export class ComponentBreakdownComponent implements OnInit {
 
   ngOnInit() { 
     console.log('***** ngOnInit *****');
+    this.breakdownForm = this.fb.group({
+      breakdown: this.fb.array([])
+    });
+    this.setProjectPhases();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('***** ngOnChanges ***** ');
     // ignore the first change... the component object is empty
     // below only fires once when the component is initialized
     if(this.doInit) {
-      console.log('***** ngOnChange doInit *****');
-      //this.getProjectPhases();
-
-      console.log('***** set componentBreakdown *****');
-      this.componentBreakdown = this.component.breakdown;
-      console.log(this.componentBreakdown);
-
-      this.breakdownForm = this.fb.group({
-        phases: this.fb.array([ this.createBreakdown(this.component.breakdown) ])
-      });
-
+      console.log('***** ngOnChanges doInit *****');
+      this.fillUpBreakdownForm();
       this.doInit = false;
     }
 
-    if(changes['component'].isFirstChange())
+    if(changes['breakdown'].isFirstChange())
       this.doInit = true;
   }
 
-  createBreakdown(_cpBreakdown): FormGroup {
-    
+  fillUpBreakdownForm() {
+    console.log('**** fillUpBreakdownForm *****');
+
+    this.breakdown.forEach( b => {
+      (this.breakdownForm.controls.breakdown as FormArray).push(this.fb.group({
+        id: b.id,
+        componentId: b.componentId,
+        phaseId: b.phaseId,
+        hours: b.hours,
+        createdAd: b.createdAt,
+        updatedAt: b.updatedAt,
+        phase: b.phase
+      }))
+    });
   }
 
-  getProjectPhases() {
-    console.log('***** getProjectPhases *****');
+  setProjectPhases() {
     this.projectPhases = [];
     this._lkpSvc.getLookupByCode('projectphases').subscribe((data) => {
       this.projectPhases = data.lookupValues;
-      console.log(this.projectPhases);
-    })
+    });
   }
 
-  getPhaseName(_phaseId) {
-    console.log('***** getPhaseName ***** ' + _phaseId);
-    return this.projectPhases.filter(
-      function(data) { return data.id == _phaseId }
-    )
+  getEffortHours(_phaseId) {
+    let phase = this.breakdown.filter(
+      function (data) { return data.phaseId == _phaseId }
+    );
+
+    if (phase === undefined)
+      return 0;
+    else
+      return phase[0].hours;
+  }
+
+  onSubmit() {
+    console.log('***** ComponentBreakdown OnSubmit *****');
+    //console.warn(this.breakdown);
+    //console.warn(this.breakdownForm.value.breakdown);
+    this.breakdown = this.breakdownForm.value.breakdown;
+    //console.warn(this.breakdown);
   }
 
 }

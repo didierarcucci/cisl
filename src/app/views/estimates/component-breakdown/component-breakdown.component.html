@@ -1,10 +1,13 @@
-<form #breakdownForm="ngForm" method="post" enctype="multipart/form-data" class="form-horizontal">
+<form [formGroup]="breakdownForm" (ngSubmit)="onSubmit()">
   <div class="card">
-    <div class="card-body">
-      <div class="form-group row" *ngFor="let b of componentBreakdown">
-        <label class="col-9 col-form-label" for="hours">{{b.phase.value}}</label>
-        <div class="col-3">
-          <input type="text" class="form-control" id="hours" name="hours" value="{{b.hours}}">
+    <div class="card-body" formArrayName="breakdown">
+      <div *ngFor="let b of breakdownForm.controls.breakdown.controls; let i=index">
+        <div class="form-group row" [formGroupName]="i">
+          <label class="col-9 col-form-label" for="hours" *ngIf="projectPhases">{{ (b.get('phase').value.value) }}</label>
+          <!--<input type="text" class="col-9 form-control" id="phase" name="phase" formControlName="phaseName">-->
+          <div class="col-3">
+            <input type="text" class="form-control" id="hours" name="hours" formControlName="hours">
+          </div>
         </div>
       </div>
     </div>

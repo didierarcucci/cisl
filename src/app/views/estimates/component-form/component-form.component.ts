@@ -1,9 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 
 import { EstimateComponent } from '../../../shared/classes/estimatecomponent';
 import { EstimateService } from '../../../shared/services/estimate.service';
+import { LookupService } from '../../../shared/services/lookup.service';
 import { AlertService } from '../../../shared/services/alert.service';
+import { TimepickerConfig } from 'ngx-bootstrap';
+//import { ComponentBreakdown } from '../../../shared/classes/componentBreakdown';
+import { ComponentBreakdownComponent } from '../component-breakdown/component-breakdown.component';
 
 @Component({
   selector: 'app-component-form',
@@ -19,11 +24,16 @@ export class ComponentFormComponent implements OnInit {
   actionType:any;
   submitted = false;
 
+  breakdownForm: FormGroup;
+
   complexityArray = ['Custom', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+  @ViewChild(ComponentBreakdownComponent) componentBreakdown: ComponentBreakdownComponent;
 
   constructor( private _estSvc: EstimateService,
                private _route: ActivatedRoute,
                private _router: Router,
+               private fb: FormBuilder,
                private _alertSvc: AlertService) { 
     if (this._router.url.includes('clone'))      this.actionType = 'clone';
     else if (this._router.url.includes('edit'))  this.actionType = 'edit';
@@ -46,7 +56,15 @@ export class ComponentFormComponent implements OnInit {
         this.component.id = null;
         this.component.name = this.component.name + ' (cloned)';
       }
+      this.breakdownForm = this.fb.group({
+        phases: this.fb.array([ this.createBreakdown(this.component.breakdown) ])
+      });
     });
+  }
+
+  createBreakdown(_cpBreakdown): FormGroup {
+    let tempFG: FormGroup;
+    return tempFG;
   }
 
   addComponent() {
@@ -86,10 +104,13 @@ export class ComponentFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('**** Component OnSubmit ****');
+    //console.log(this.component.breakdown);
+    this.componentBreakdown.onSubmit();
+    //console.log(this.componentBreakdown.breakdown);
     this.submitted = true;
-    console.log(JSON.stringify(this.component));
-    if (this.actionType == 'edit') this.updateComponent()
-    else this.addComponent();
+    //if (this.actionType == 'edit') this.updateComponent()
+    //else this.addComponent();
   }
 
   ngOnInit() { }

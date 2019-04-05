@@ -8,5 +8,4 @@ export class ComponentBreakdown {
     createdAt: Date;
     updatedAt: Date;
     phase: LookupValue;
-    
 }
